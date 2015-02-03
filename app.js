@@ -1,5 +1,11 @@
+var worker = new Worker('workers/master.js');
+
 function handleFileSelect(evt) {
   var files = evt.target.files; // FileList object
+  worker.postMessage({
+    cmd: 'load',
+    files: files
+  });
 
   output = [];
   // Loop through the FileList and render image files as thumbnails.
