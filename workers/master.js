@@ -7,6 +7,10 @@ var actions = {
     for (var i = 0, f; f = msg.files[i]; i++) {
      points = FileLoader(f); 
     }
+    self.postMessage({
+      cmd: "status",
+      msg: "Parsed " + points.length + " points"
+    })
   }
 }
 self.onmessage = function(e){

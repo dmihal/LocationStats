@@ -1,4 +1,14 @@
 var worker = new Worker('workers/master.js');
+worker.addEventListener('message', function(e) {
+  if (actions[e.data.cmd]){
+    actions[e.data.cmd](e.data)
+  }
+});
+var actions = {
+  status: function(data){
+    document.querySelector("#status").innerText = data.msg;
+  }
+}
 
 function handleFileSelect(evt) {
   var files = evt.target.files; // FileList object
@@ -14,22 +24,12 @@ function handleFileSelect(evt) {
                   f.size, ' bytes, last modified: ',
                   f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
                   '</li>');
-    var reader = new FileReader();
-    reader.readAsText(f);
-    reader.onloadend = function(){
-      readXML(reader.result);
-    };
   }
   document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
 
   // Read in the image file as a data URL.
   //reader.readAsDataURL(f);
 };
-function readXML(xmlStr){
-  var parser = new window.DOMParser();
 
-  var xml = parser.parseFromString(xmlStr, "text/xml");
-  console.log(xml);
-};
 
 document.getElementById('files').addEventListener('change', handleFileSelect, false);
