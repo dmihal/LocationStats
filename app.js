@@ -6,7 +6,7 @@ worker.addEventListener('message', function(e) {
 });
 var actions = {
   status: function(data){
-    document.querySelector("#status").innerText = data.msg;
+    document.querySelector("#status").innerText += data.msg + '\n';
   }
 }
 
