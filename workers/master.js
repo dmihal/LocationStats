@@ -1,3 +1,4 @@
+importScripts("performance.js");
 importScripts("fileLoader.js");
 importScripts("basicStats.js");
 

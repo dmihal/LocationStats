@@ -12,6 +12,9 @@ var actions = {
     document.querySelector("#task").innerText = data.task;
     document.querySelector("#progress progress").value = data.val;
     document.querySelector("#progress progress").max = data.max;
+  },
+  performance: function(data){
+    document.querySelector("#status").innerText += data.task + ' completed in ' + data.time + 'ms\n';
   }
 }
 
