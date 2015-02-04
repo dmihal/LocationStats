@@ -10,11 +10,20 @@ States = (function(){
   var stateStats = {};
   return {
     process: function(points){
+      var lastState = null;
+      var lastTime;
       for (var i=0; i<points.length; i++){
         var pnt = points[i];
         var state = this.getState(pnt.lat, pnt.lng);
-        stateStats[state.properties.STUSPS] = stateStats[state.properties.STUSPS] || {count:0};
+        stateStats[state.properties.STUSPS] = stateStats[state.properties.STUSPS] || {count:0, seconds: 0};
         stateStats[state.properties.STUSPS].count++;
+        
+        if (state == lastState){
+          stateStats[state.properties.STUSPS].seconds += ((pnt.date.getTime() - lastTime)/1000);
+        }
+        lastState = state;
+        lastTime = pnt.date.getTime();
+        
         if (!(i % 50)){
           self.postMessage({
             cmd: "progress",
