@@ -7,6 +7,11 @@ worker.addEventListener('message', function(e) {
 var actions = {
   status: function(data){
     document.querySelector("#status").innerText += data.msg + '\n';
+  },
+  progress: function(data){
+    document.querySelector("#task").innerText = data.task;
+    document.querySelector("#progress progress").value = data.val;
+    document.querySelector("#progress progress").max = data.max;
   }
 }
 
