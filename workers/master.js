@@ -1,4 +1,5 @@
 importScripts("fileLoader.js");
+importScripts("basicStats.js");
 
 points = [];
 
@@ -10,7 +11,13 @@ var actions = {
     self.postMessage({
       cmd: "status",
       msg: "Parsed " + points.length + " points"
-    })
+    });
+    BasicStats.process(points);
+    var days = BasicStats.numDays();
+    self.postMessage({
+      cmd: "status",
+      msg: "Found " + days + " days, " + (points.length / days) + " points/day"
+    });
   }
 }
 self.onmessage = function(e){
