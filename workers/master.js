@@ -1,5 +1,6 @@
 importScripts("fileLoader.js");
 importScripts("basicStats.js");
+importScripts("states.js");
 
 points = [];
 
@@ -17,6 +18,12 @@ var actions = {
     self.postMessage({
       cmd: "status",
       msg: "Found " + days + " days, " + (points.length / days) + " points/day"
+    });
+    
+    States.process(points);
+    self.postMessage({
+      cmd: "status",
+      msg: "States: " + JSON.stringify(States.getStats(), null, ' ')
     });
   }
 }
