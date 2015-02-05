@@ -1,10 +1,12 @@
 importScripts('../lib/geojson-utils.js');
 
+Performance.start("LoadStates");
 var stateData = null;
-function loadStates(data){
-  stateData = data;
-}
-importScripts('../data/states.js');
+var request = new XMLHttpRequest();
+request.open('GET', '../data/states.json', false);
+request.send(null);
+stateData = JSON.parse(request.responseText);
+Performance.stop("LoadStates");
 
 States = (function(){
   var stateStats = {};
