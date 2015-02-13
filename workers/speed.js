@@ -24,6 +24,7 @@ Speed = (function(){
           var miles = coord2miles(pnt.lat, pnt.lng, lastPnt.lat, lastPnt.lng);
           var hours = (pnt.date - lastPnt.date) * HR_PER_MS;
           var mph = miles / hours;
+          this.dateLog.addData(lastPnt.date, pnt.date, mph);
           
           totalMiles += miles;
           totalHours += hours;
@@ -40,6 +41,7 @@ Speed = (function(){
       avgSpeed = totalMiles / totalHours;
       Performance.stop('CalculateSpeed');
     },
+    dateLog: new DateLogger("Speed"),
     getAvgSpeed: function(){
       return avgSpeed;
     }
