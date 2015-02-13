@@ -1,15 +1,37 @@
 <!doctype html>
 <html>
   <head>
+    <title>Location Data Statistics</title>
+    <link href="assets/bootstrap.min.css" rel="stylesheet" type="text/css" />  
+    <link href="assets/design.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <input type="file" id="files" name="files[]" accept=".kml" multiple />
-    <output id="list"></output>
-    <div id="progress">
-      <div id="task"></div>
-      <progress value="0" max="100"></progress>
-    </div>
-    <pre id="status"></pre>
+    <section class="home">
+      <div>
+        Location Data!
+      </div>
+    </section>
+    <section class="upload">
+      <div>
+        <h2>Let's get started!</h2>
+        <div>1) Download your location data from these URLs:</div>
+        <div>
+          <a href="https://maps.google.com/locationhistory/b/0/kml?startTime=1421222400000&endTime=1423814400000" target="_blank">Last 30 Days</a>
+        </div>
+        <div>2) Open your location data here!</div>
+        <div><input type="file" id="files" name="file" accept=".kml" /></div>
+        <div class="alert alert-info" role="alert">
+          Note: Your location data is not uploaded to any severs or shared with anyone.
+          All processing is done right on your computer!
+        </div>
+        <output id="list"></output>
+        <div id="progress">
+          <div id="task"></div>
+          <progress value="0" max="100"></progress>
+        </div>
+        <pre id="status"></pre>
+      </div>
+    </section>
     <script src="app.js" ></script>
   </body>
 </html>

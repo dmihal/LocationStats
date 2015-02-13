@@ -1,0 +1,19 @@
+body, html {
+width: 100%;
+height: 100%;
+}
+section {
+  height: 100%;
+}
+section > div {
+  margin: 0 auto;
+  padding: 100px;
+  width: 700;
+}
+
+.home {
+  background: #D9CEB2;
+}
+.upload {
+  background: #99B2B7;
+}
