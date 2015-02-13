@@ -8,6 +8,7 @@ importScripts('../data/states.js');
 
 States = (function(){
   var stateStats = {};
+  var travel = {};
   return {
     process: function(points){
       var lastState = null;
@@ -20,6 +21,10 @@ States = (function(){
         
         if (state == lastState){
           stateStats[state.properties.STUSPS].seconds += ((pnt.date.getTime() - lastTime)/1000);
+        } else if(lastState && state) {
+          var str = lastState.properties.STUSPS + " => " + state.properties.STUSPS;
+          travel[str] = travel[str] || {count: 0};
+          travel[str].count++;
         }
         lastState = state;
         lastTime = pnt.date.getTime();
@@ -46,6 +51,9 @@ States = (function(){
     },
     getStats: function(){
       return stateStats;
+    },
+    getTravel: function(){
+      return travel;
     }
   };
 })();

@@ -26,6 +26,10 @@ var actions = {
       cmd: "status",
       msg: "States: " + JSON.stringify(States.getStats(), null, ' ')
     });
+    self.postMessage({
+      cmd: "status",
+      msg: "Travel: " + JSON.stringify(States.getTravel(), null, ' ')
+    });
   }
 }
 self.onmessage = function(e){
