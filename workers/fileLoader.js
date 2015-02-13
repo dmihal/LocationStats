@@ -3,33 +3,54 @@ FileLoader = (function(){
   
   var re = /<when>([0-9\-T:\.]+)<\/when>\n<gx:coord>(-?\d*(?:.\d+)?) (-?\d*(?:.\d+)?) 0<\/gx:coord>/g;
   
-  function readPoints(xmlStr){
-    Performance.start('FileParser');
-    var out = [];
-    while (match = re.exec(xmlStr)){
-      var pnt = {
-        date: new Date(match[1]),
-        lat: Number.parseFloat(match[2]),
-        lng: Number.parseFloat(match[3])
-      }
-      out.push(pnt);
+  var file;
+  var filePos = 0;
+  var chunkSize = 256 * 1024;
 
-      self.postMessage({
-        cmd: "progress",
-        task: "Reading DataPoints",
-        val: match.index,
-        max: xmlStr.length
-      });
+  function openFile(f){
+    file = f;
+  }
+  function getNextChunk(){
+    var end = chunkSize + filePos;
+    var blob = file.slice(filePos, end);
+    filePos = end;
+    var str = reader.readAsText(blob);
+
+    self.postMessage({
+      cmd: "progress",
+      task: "Reading DataPoints",
+      val: filePos,
+      max: file.size
+    });
+    return str;
+  }
+  function readPoints(xmlStr){
+    var out = [];
+    var xmlFragment = "";
+    var chunk;
+    while (chunk = getNextChunk()){
+      xmlFragment += chunk;
+      var sliceAmmt = 0;
+      var match;
+      while (match = re.exec(xmlFragment)){
+        var pnt = {
+          date: new Date(match[1]),
+          lat: Number.parseFloat(match[2]),
+          lng: Number.parseFloat(match[3])
+        }
+        out.push(pnt);
+        sliceAmmt = match.index + match[0].length;
+      }
+      xmlFragment = xmlFragment.slice(sliceAmmt);
     }
-    Performance.stop('FileParser');
     return out;
   }
   
   return function(file){
     Performance.start('FileReader');
-    var xmlStr = reader.readAsText(file);
+    openFile(file);
+    var points = readPoints();
     Performance.stop('FileReader');
-    var points = readPoints(xmlStr);
     return points;
   };
 })();

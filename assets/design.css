@@ -1,0 +1,40 @@
+body, html {
+width: 100%;
+height: 100%;
+}
+section {
+  height: 100%;
+}
+section > div {
+  margin: 0 auto;
+  padding: 100px;
+  max-width: 800px;
+}
+
+/* File upload Button Styling */
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.home {
+  background: #D9CEB2;
+}
+.upload {
+  background: #99B2B7;
+}
