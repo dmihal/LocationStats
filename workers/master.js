@@ -1,14 +1,35 @@
+importScripts("misc.js");
 importScripts("performance.js");
-importScripts("fileLoader.js");
-importScripts("basicStats.js");
 
-points = [];
+/* Load Modules */
+var modules = [];
+var handleMsg = function(e){
+  self.postMessage(e.data);
+};
+var modInfo = loadJSON("modules.json");
+for (var i = 0; i < modInfo.modules.length; i++) {
+  var modName = modInfo.modules[i];
+  var worker = new Worker(unCapitalize(modName) + ".js");
+  worker.addEventListener("message", handleMsg);
+  modules.push(worker);
+}
+
+/* Set up file loader */
+var loader = new Worker("fileLoader.js");
+loader.addEventListener('message', function(e) {
+  if (e.data.cmd == "pnt"){
+    for (var i = 0; i < modules.length; i++) {
+      modules[i].postMessage(e.data);
+    }
+  }
+});
 
 var actions = {
   load: function(msg){
-    for (var i = 0, f; f = msg.files[i]; i++) {
-     points = FileLoader(f); 
-    }
+    loader.postMessage({
+      cmd: "load",
+      file: msg.files[0]
+    });
     self.postMessage({
       cmd: "status",
       msg: "Parsed " + points.length + " points"

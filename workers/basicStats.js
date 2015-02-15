@@ -19,22 +19,24 @@ BasicStats = (function(){
     return day;
   }
   
+  var lastPnt = null;
   return {
-    process: function(points){
-      var lastPnt = null;
+    processPnt: function(pnt){
+      var dateStr = pnt.date.toDateString();
+
+      var day = getDate(dateStr);
+      day.numPts++;
       
-      for (var i=0; i<points.length; i++){
-        var pnt = points[i];
-        var dateStr = pnt.date.toDateString();
-        
-        var day = getDate(dateStr);
-        day.numPts++;
-        
-        lastPnt = pnt;
-      }
+      lastPnt = pnt;
     },
     numDays: function(){
       return days.length;
     }
-  }; 
+  };
 })();
+
+self.onmessage = function(e){
+  if (e.data.cmd == "pnt"){
+    BasicStats.processPnt(e.data.pnt);
+  }
+};

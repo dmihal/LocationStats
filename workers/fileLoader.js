@@ -25,7 +25,6 @@ FileLoader = (function(){
     return str;
   }
   function readPoints(xmlStr){
-    var out = [];
     var xmlFragment = "";
     var chunk;
     while (chunk = getNextChunk()){
@@ -38,19 +37,26 @@ FileLoader = (function(){
           lat: Number.parseFloat(match[2]),
           lng: Number.parseFloat(match[3])
         }
-        out.push(pnt);
+        self.postMessage({
+          cmd: "pnt",
+          pnt: pnt
+        });
         sliceAmmt = match.index + match[0].length;
       }
       xmlFragment = xmlFragment.slice(sliceAmmt);
     }
-    return out;
   }
   
   return function(file){
     Performance.start('FileReader');
     openFile(file);
-    var points = readPoints();
+    readPoints();
     Performance.stop('FileReader');
-    return points;
   };
 })();
+
+self.onmessage = function(e){
+  if (e.data.cmd == "load"){
+    FileLoader(e.data.file);
+  }
+};
