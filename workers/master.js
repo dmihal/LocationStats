@@ -22,10 +22,12 @@ var actions = {
     });
     
     Speed.process(points);
+    var distance = Speed.getTotalDistance();
     var speed = Speed.getAvgSpeed();
     self.postMessage({
       cmd: "status",
-      msg: "Average speed: "+speed+"mph"
+      msg: "Distance traveled: "+distance+" miles\n"+
+           "Average speed: "+speed+"mph"
     });
   }
 }

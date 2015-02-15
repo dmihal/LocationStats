@@ -11,6 +11,7 @@ Speed = (function(){
   }
   
   var avgSpeed;
+  var totalDistance;
   return {
     process: function(points){
       Performance.start('CalculateSpeed');
@@ -38,10 +39,14 @@ Speed = (function(){
         });
       }
       avgSpeed = totalMiles / totalHours;
+      totalDistance = totalMiles;
       Performance.stop('CalculateSpeed');
     },
     getAvgSpeed: function(){
       return avgSpeed;
+    },
+    getTotalDistance: function(){
+      return totalDistance;
     }
   };
 })();
