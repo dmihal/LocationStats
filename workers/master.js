@@ -1,5 +1,6 @@
 importScripts("misc.js");
 importScripts("performance.js");
+importScripts("../subworkers.js");
 
 /* Load Modules */
 var modules = [];
